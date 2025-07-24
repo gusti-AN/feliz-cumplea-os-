@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños Evelyn ❤️</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffebee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background-color: #e74c3c;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            z-index: 2;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #c0392b;
+            transform-origin: top;
+            transform: rotateX(0deg);
+            transition: all 0.5s ease;
+            z-index: 3;
+        }
+
+        .envelope.open:before {
+            transform: rotateX(180deg);
+        }
+
+        .letter {
+            position: absolute;
+            width: 280px;
+            height: 180px;
+            background-color: white;
+            top: 10px;
+            left: 10px;
+            border-radius: 3px;
+            padding: 10px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: all 0.5s ease 0.3s;
+            overflow: hidden;
+        }
+
+        .envelope.open .letter {
+            opacity: 1;
+            transform: translateY(-100px);
+            height: 300px;
+        }
+
+        h1 {
+            color: #e74c3c;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .poem {
+            text-align: center;
+            font-style: italic;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            animation: fall linear;
+            color: #e74c3c;
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope">
+        <div class="letter">
+            <h1>Feliz Cumpleaños Evelyn ❤️</h1>
+            <p>Que este día esté lleno de alegría, amor y momentos inolvidables.</p>
+            
+            <div class="poem">
+                <p>En este día tan especial,</p>
+                <p>quiero decirte sin igual,</p>
+                <p>que eres luz, eres bondad,</p>
+                <p>y mereces toda felicidad.</p>
+                <p>❤️</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="music-control" onclick="toggleMusic()">
+        ♫
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <script>
+        const envelope = document.querySelector('.envelope');
+        const letter = document.querySelector('.letter');
+        const bgMusic = document.getElementById('bgMusic');
+        let musicPlaying = false;
+
+        // Cargar música (reemplaza con el enlace directo a Mrs Magic de Strawberry Guy)
+        // bgMusic.src = "URL_DIRECTA_A_LA_CANCION.mp3";
+
+        envelope.addEventListener('click', function() {
+            this.classList.toggle('open');
+            
+            if (this.classList.contains('open')) {
+                startHearts();
+                if (!musicPlaying) {
+                    bgMusic.play();
+                    musicPlaying = true;
+                }
+            }
+        });
+
+        function startHearts() {
+            // Crear corazones que caen
+            setInterval(() => {
+                createHeart();
+            }, 300);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+            
+            // Eliminar el corazón después de que termine la animación
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        function toggleMusic() {
+            if (musicPlaying) {
+                bgMusic.pause();
+                musicPlaying = false;
+            } else {
+                bgMusic.play();
+                musicPlaying = true;
+            }
+        }
+
+        // Para móviles: permitir reproducir música solo después de interacción del usuario
+        document.body.addEventListener('click', function() {
+            if (envelope.classList.contains('open') && !musicPlaying) {
+                bgMusic.play();
+                musicPlaying = true;
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
